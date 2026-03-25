@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  meshlink:
+    build: .
+    container_name: meshlink-app
+    # IMPORTANT: Network mode "host" is required so UDP local mesh multicasting
+    # correctly escapes the container and hits your actual physical router network.
+    network_mode: "host" 
+    environment:
+      # Pass the X11 Display forward to your host screen
+      - DISPLAY=${DISPLAY}
+      # Required for Chrome/Electron containerization 
+      - ELECTRON_DISABLE_SANDBOX=1
+    volumes:
+      # Mount X11 sockets to project window onto the host UI
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    ipc: host
