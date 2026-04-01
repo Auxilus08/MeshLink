@@ -9,9 +9,11 @@ const api = {
   updateName: (name: string) => ipcRenderer.invoke('update-name', name),
   
   onPeersUpdated: (callback: (peers: any[]) => void) => {
+    ipcRenderer.removeAllListeners('peers-updated')
     ipcRenderer.on('peers-updated', (_event, value) => callback(value))
   },
   onMessage: (callback: (msg: any) => void) => {
+    ipcRenderer.removeAllListeners('message')
     ipcRenderer.on('message', (_event, value) => callback(value))
   }
 }

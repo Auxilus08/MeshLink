@@ -33,7 +33,11 @@ export default function App() {
     });
 
     window.api.onMessage((msg) => {
-      setMessages(prev => [...prev, msg]);
+      setMessages(prev => {
+        // Prevent duplicate append in case of React Strict Mode double-effects
+        if (prev.some(m => m.id === msg.id)) return prev;
+        return [...prev, msg];
+      });
     });
   }, []);
 
@@ -46,7 +50,10 @@ export default function App() {
     if (!inputText.trim() || !myInfo) return;
 
     const msg = await window.api.sendMessage(selectedPeer, inputText);
-    setMessages(prev => [...prev, msg]);
+    setMessages(prev => {
+      if (prev.some(m => m.id === msg.id)) return prev;
+      return [...prev, msg];
+    });
     setInputText('');
   };
 
