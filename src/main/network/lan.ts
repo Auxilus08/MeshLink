@@ -147,8 +147,9 @@ export class LANLayer extends EventEmitter {
         const payload = JSON.parse(msg.toString());
         if (payload.id && payload.id !== this.router.myId && payload.ip && payload.port) {
           // It's a valid MeshLink discovery ping! Connect if we don't have them
+          const connectingIp = rinfo.address; // Use the actual receipt address over LAN, ignore self-reported local IP 
           if (!this.peerSockets.has(payload.id)) {
-            this.connectToPeer(payload.id, payload.ip, payload.port);
+            this.connectToPeer(payload.id, connectingIp, payload.port);
           }
         }
       } catch (e) {}
@@ -164,7 +165,22 @@ export class LANLayer extends EventEmitter {
     });
     
     const sendPulse = () => {
-      this.udpSocket.send(broadcastMsg, 0, broadcastMsg.length, DISCOVERY_PORT, '255.255.255.255', () => {});
+      const interfaces = require('os').networkInterfaces();
+      for (const dev in interfaces) {
+        interfaces[dev].forEach((details: any) => {
+          if (details.family === 'IPv4' && !details.internal) {
+            const ipParts = details.address.split('.').map(Number);
+            const maskParts = details.netmask.split('.').map(Number);
+            const broadcastParts = ipParts.map((ipPart: number, i: number) => ipPart | (~maskParts[i] & 255));
+            const broadcastIp = broadcastParts.join('.');
+            try {
+              this.udpSocket.send(broadcastMsg, 0, broadcastMsg.length, DISCOVERY_PORT, broadcastIp, () => {});
+            } catch (e) {} // ignore send errors for specific adapters
+          }
+        });
+      }
+      
+      try { this.udpSocket.send(broadcastMsg, 0, broadcastMsg.length, DISCOVERY_PORT, '255.255.255.255', () => {}); } catch(e) {}
       this.udpSocket.send(broadcastMsg, 0, broadcastMsg.length, DISCOVERY_PORT, DISCOVERY_MULTICAST, () => {});
     };
 
