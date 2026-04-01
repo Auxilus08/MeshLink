@@ -52,10 +52,23 @@ export class MeshRouter extends EventEmitter {
     }
     this.seenMessages.set(msg.id, Date.now());
 
-    // 2. Is it for me? Or broadcast?
-    if (msg.to === this.myId || msg.to === 'broadcast') {
-      this.emit('message', msg);
-    } // else we just forward it
+    // Refresh peer last seen if known
+    if (sourcePeerId && this.peers.has(sourcePeerId)) {
+      const p = this.peers.get(sourcePeerId)!;
+      p.lastSeen = Date.now();
+      this.peers.set(sourcePeerId, p);
+    }
+
+    // 2. Intercept handshakes so they don't break the UI
+    if (msg.type === 'handshake' || msg.type === 'peer-info') {
+      const peerData = msg.content as Omit<Peer, 'lastSeen'>;
+      this.registerPeer(peerData);
+    } else {
+      // It's a text message or generic payload
+      if (msg.to === this.myId || msg.to === 'broadcast') {
+        this.emit('message', msg);
+      } // else we just forward it
+    }
 
     // 3. TTL Check and Forwarding
     if (msg.ttl > 1) {
