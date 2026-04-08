@@ -27,7 +27,62 @@
 * **Premium UX/UI:** An exquisitely engineered frontend rendering layer structured using `React` and `Tailwind CSS 4` featuring strict typing, glassmorphism abstractions, and interactive peer visual identities.
 
 ## 🛠️ Technology Stack
-
+<div style="margin: 32px 0;">
+  <table style="border-collapse: collapse; width: 100%; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); font-family: system-ui, -apple-system, sans-serif;">
+    <thead>
+      <tr style="background-color: #2563eb; color: #ffffff; text-align: left;">
+        <th style="padding: 16px 24px; font-weight: 600; letter-spacing: 0.5px;">Architecture Layer</th>
+        <th style="padding: 16px 24px; font-weight: 600; letter-spacing: 0.5px;">File / Component</th>
+        <th style="padding: 16px 24px; font-weight: 600; letter-spacing: 0.5px;">Technology</th>
+        <th style="padding: 16px 24px; font-weight: 600; letter-spacing: 0.5px;">Description</th>
+      </tr>
+    </thead>
+    <tbody style="color: #334155; font-size: 14px;">
+      <tr style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+        <td style="padding: 16px 24px; font-weight: bold; color: #0f172a;">GUI Framework</td>
+        <td style="padding: 16px 24px;">Electron Main/Renderer</td>
+        <td style="padding: 16px 24px; font-style: italic;">Electron.js</td>
+        <td style="padding: 16px 24px; line-height: 1.5;">Desktop application container</td>
+      </tr>
+      <tr style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">
+        <td style="padding: 16px 24px; font-weight: bold; color: #0f172a;">Frontend UI</td>
+        <td style="padding: 16px 24px;">React Components</td>
+        <td style="padding: 16px 24px; font-style: italic;">React 19, Tailwind CSS v4</td>
+        <td style="padding: 16px 24px; line-height: 1.5;">User interface and styling</td>
+      </tr>
+      <tr style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+        <td style="padding: 16px 24px; font-weight: bold; color: #0f172a;">Networking Layer</td>
+        <td style="padding: 16px 24px;"><code style="background: #e2e8f0; padding: 4px 8px; border-radius: 4px; color: #b91c1c;">src/main/network/lan.ts</code></td>
+        <td style="padding: 16px 24px; font-style: italic;">Node.js dgram & net</td>
+        <td style="padding: 16px 24px; line-height: 1.5;">Local network UDP discovery and TCP connections</td>
+      </tr>
+      <tr style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">
+        <td style="padding: 16px 24px; font-weight: bold; color: #0f172a;">Mesh Controller</td>
+        <td style="padding: 16px 24px;"><code style="background: #e2e8f0; padding: 4px 8px; border-radius: 4px; color: #b91c1c;">src/main/mesh/router.ts</code></td>
+        <td style="padding: 16px 24px; font-style: italic;">Node.js Event Emitter</td>
+        <td style="padding: 16px 24px; line-height: 1.5;">Multi-hop packet routing and deduplication</td>
+      </tr>
+      <tr style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+        <td style="padding: 16px 24px; font-weight: bold; color: #0f172a;">Cryptography</td>
+        <td style="padding: 16px 24px;">Node native crypto</td>
+        <td style="padding: 16px 24px; font-style: italic;">AES-256-GCM</td>
+        <td style="padding: 16px 24px; line-height: 1.5;">Symmetric zero-dependency payload encryption</td>
+      </tr>
+      <tr style="background-color: #ffffff; border-bottom: 1px solid #e2e8f0;">
+        <td style="padding: 16px 24px; font-weight: bold; color: #0f172a;">IPC Bridge</td>
+        <td style="padding: 16px 24px;"><code style="background: #e2e8f0; padding: 4px 8px; border-radius: 4px; color: #b91c1c;">src/preload/index.ts</code></td>
+        <td style="padding: 16px 24px; font-style: italic;">contextBridge</td>
+        <td style="padding: 16px 24px; line-height: 1.5;">Secure UI-to-Backend communication</td>
+      </tr>
+      <tr style="background-color: #f8fafc;">
+        <td style="padding: 16px 24px; font-weight: bold; color: #0f172a;">Build / Tooling</td>
+        <td style="padding: 16px 24px;"><code style="background: #e2e8f0; padding: 4px 8px; border-radius: 4px; color: #b91c1c;">electron-builder.yml</code></td>
+        <td style="padding: 16px 24px; font-style: italic;">Vite, electron-builder</td>
+        <td style="padding: 16px 24px; line-height: 1.5;">Cross-platform packaging (EXE, DMG, AppImage)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 | Architecture Layer | Technology |
 | :--- | :--- |
 | **GUI Framework** | Electron.js (Main / Preload / Renderer instances) |
