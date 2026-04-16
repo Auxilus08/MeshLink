@@ -83,13 +83,8 @@
     </tbody>
   </table>
 </div>
-| Architecture Layer | Technology |
-| :--- | :--- |
-| **GUI Framework** | Electron.js (Main / Preload / Renderer instances) |
-| **Frontend UI** | React 19, TypeScript, Tailwind CSS v4, Lucide Icons |
-| **Networking Layer** | Node.js native `dgram` (UDP), `net` (TCP) |
-| **Cryptography** | Node.js native `crypto` |
-| **Tooling & Build** | Vite, `electron-vite`, `electron-builder` |
+
+
 
 ## 🚀 Getting Started
 
